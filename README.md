@@ -1,3 +1,6 @@
-This is the main page of our repository.
+# LauzHack 2019
 
-Have fun! 
+This is the main repository for the **LauzHack 2019** contest which take place 
+Saturday November 16.
+
+## Have fun! 
