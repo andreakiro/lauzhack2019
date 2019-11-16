@@ -31,17 +31,16 @@ public class OurBBook implements BBook {
 
 	@Override
 	public void onTrade(Trade trade) {
-		// It would certainly be wise to store the available amount per currency..
-		// We cover market 5% of times, for twice the value. Cause why not ??
-		if (Math.random() < 0.05) {
-			Trade coverTrade = new Trade(trade.base, trade.term, trade.quantity.multiply(new BigDecimal(2)));
-			bank.buy(coverTrade);
-		}
+		admin.doTrade(trade);
+		
+//		if (Math.random() < 0.05) {
+//			Trade coverTrade = new Trade(trade.base, trade.term, trade.quantity.multiply(new BigDecimal(2)));
+//			bank.buy(coverTrade);
+//		}
 	}
 
 	@Override
 	public void onPrice(Price price) {
-		// It would certainly be wise to store the prices somewhere to take educated decision..
 		admin.updateMarketPrices(price);
 	}
 

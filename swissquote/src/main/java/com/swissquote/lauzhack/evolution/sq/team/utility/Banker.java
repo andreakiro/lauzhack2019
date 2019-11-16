@@ -16,7 +16,7 @@ public final class Banker {
 		this.market = new MarketPrices();
 	}
 	
-	public void getTrade(Trade trade) {
+	public void doTrade(Trade trade) {
 		
 	}
 	
