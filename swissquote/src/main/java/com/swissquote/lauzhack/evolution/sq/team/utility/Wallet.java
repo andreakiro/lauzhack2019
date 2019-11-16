@@ -23,7 +23,7 @@ public final class Wallet {
 		return wallet.get(cur);
 	}
 	
-	public void updateWallet(Currency cur, BigDecimal amount) {
+	public void update(Currency cur, BigDecimal amount) {
 		wallet.put(cur, wallet.get(cur).add(amount));
 	}
 }

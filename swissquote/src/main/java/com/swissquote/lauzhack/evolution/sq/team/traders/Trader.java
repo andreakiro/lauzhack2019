@@ -29,6 +29,8 @@ public abstract class Trader {
 		BigDecimal loss = tradeWithClientLoss(trade.base, trade.term, trade.quantity);
 		BigDecimal gain = tradeWithClientGain(trade.base, trade.term, trade.quantity);
 		tradeWithBank(loss, gain, trade.base, trade.term);
+		wallet.update(trade.base, loss);
+		wallet.update(trade.term, gain);
 	};
 	
 	protected abstract void tradeWithBank(BigDecimal loss, BigDecimal gain, Currency base, Currency term);
@@ -37,10 +39,6 @@ public abstract class Trader {
 	
 	public void updateMarketPrices(Price price) {
 		market.updateMarketPrices(price);
-	}
-	
-	protected void updateWallet(Currency cur, BigDecimal amount) {
-		wallet.updateWallet(cur, amount);
 	}
 	
 	private BigDecimal tradeWithClientLoss(Currency base, Currency term, BigDecimal amount) {
