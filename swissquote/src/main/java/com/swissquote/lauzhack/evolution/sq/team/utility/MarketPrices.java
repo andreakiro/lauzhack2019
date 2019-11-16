@@ -54,6 +54,6 @@ public final class MarketPrices {
 	}
 	
 	private void addLastMarkup(Currency cur, BigDecimal value) {
-		rates.get(cur).add(0, value);
+		markups.get(cur).add(0, value);
 	}
 }

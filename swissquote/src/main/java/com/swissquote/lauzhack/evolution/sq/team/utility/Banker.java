@@ -5,18 +5,19 @@ import java.math.BigDecimal;
 import com.swissquote.lauzhack.evolution.api.Currency;
 import com.swissquote.lauzhack.evolution.api.Price;
 
-public class Administrator {
+public final class Banker {
 	
 	private Wallet wallet;
 	private MarketPrices market;
 	
-	public Administrator() {
+	public Banker() {
 		this.wallet = new Wallet();
 		this.market = new MarketPrices();
 	}
 	
-	public void updateWallet(Currency in, BigDecimal amount, Currency out) {
-		wallet.updateWallet(market, in, amount, out);
+	public void updateWallet(Currency cur, BigDecimal amount) {
+		
+		wallet.updateWallet(cur, amount);
 	}
 	
 	public void updateMarketPrices(Price price) {
