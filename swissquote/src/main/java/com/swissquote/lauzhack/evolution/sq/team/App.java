@@ -19,9 +19,9 @@ public class App {
 		SwissquoteEvolution app = new SwissquoteEvolutionBuilder().
 				profile(MarketProfile.SOMETHING).
 				seed(1).
-				team("SQTeam").
+				team("centroid").
 				bBook(ourBBook).
-				filePath("/home/").
+				filePath("/Users/Andrea/Documents/Coding/lauzhack/swissquote/output").
 				interval(1).
 				steps(5000).
 				build();

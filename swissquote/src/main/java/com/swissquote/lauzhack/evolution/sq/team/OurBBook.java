@@ -7,6 +7,8 @@ import com.swissquote.lauzhack.evolution.api.Bank;
 import com.swissquote.lauzhack.evolution.api.Currency;
 import com.swissquote.lauzhack.evolution.api.Price;
 import com.swissquote.lauzhack.evolution.api.Trade;
+import com.swissquote.lauzhack.evolution.sq.team.utility.Administrator;
+import com.swissquote.lauzhack.evolution.sq.team.utility.Wallet;
 
 /**
  * This is a very simple example of implementation.
@@ -17,8 +19,11 @@ public class OurBBook implements BBook {
 	// Save a reference to the bank in order to pass orders
 	private Bank bank;
 	
+	private Administrator admin;
+	
 	@Override
 	public void onInit() {
+		this.admin = new Administrator();
 		// Start by buying some cash. Don't search for more logic here: numbers are just random..
 		bank.buy(new Trade(Currency.EUR, Currency.CHF, new BigDecimal(100000)));
 		bank.buy(new Trade(Currency.JPY, Currency.CHF, new BigDecimal(1000000)));
@@ -40,6 +45,7 @@ public class OurBBook implements BBook {
 	@Override
 	public void onPrice(Price price) {
 		// It would certainly be wise to store the prices somewhere to take educated decision..
+		admin.updateMarketPrices(price);
 	}
 
 	@Override
