@@ -16,7 +16,8 @@ public class OurBBook implements BBook {
 
 	// Save a reference to the bank in order to pass orders
 	private Bank bank;
-
+	private Bank test;
+	
 	@Override
 	public void onInit() {
 		// Start by buying some cash. Don't search for more logic here: numbers are just random..
