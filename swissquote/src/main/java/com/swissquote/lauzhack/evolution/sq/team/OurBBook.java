@@ -7,6 +7,7 @@ import com.swissquote.lauzhack.evolution.api.Bank;
 import com.swissquote.lauzhack.evolution.api.Currency;
 import com.swissquote.lauzhack.evolution.api.Price;
 import com.swissquote.lauzhack.evolution.api.Trade;
+import com.swissquote.lauzhack.evolution.sq.team.traders.NaiveTrader;
 import com.swissquote.lauzhack.evolution.sq.team.utility.Trader;
 
 /**
@@ -17,7 +18,7 @@ public class OurBBook implements BBook {
 
 	// Save a reference to the bank in order to pass orders
 	private Bank bank;
-	private Trader trader = new Trader(bank);
+	private Trader trader = new NaiveTrader(bank);
 	
 	@Override
 	public void onInit() {
@@ -43,21 +44,3 @@ public class OurBBook implements BBook {
 		this.bank = bank;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//if (Math.random() < 0.05) {
-//Trade coverTrade = new Trade(trade.base, trade.term, trade.quantity.multiply(new BigDecimal(2)));
-//bank.buy(coverTrade);
-//}
