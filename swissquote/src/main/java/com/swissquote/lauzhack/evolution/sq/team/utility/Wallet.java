@@ -24,6 +24,6 @@ public final class Wallet {
 	}
 	
 	public void updateWallet(Currency cur, BigDecimal amount) {
-		wallet.put(cur, amount);
+		wallet.put(cur, wallet.get(cur).add(amount));
 	}
 }

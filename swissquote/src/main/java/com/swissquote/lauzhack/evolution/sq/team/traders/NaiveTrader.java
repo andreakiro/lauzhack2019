@@ -3,7 +3,8 @@ package com.swissquote.lauzhack.evolution.sq.team.traders;
 import java.math.BigDecimal;
 
 import com.swissquote.lauzhack.evolution.api.Bank;
-import com.swissquote.lauzhack.evolution.api.Trade;
+import com.swissquote.lauzhack.evolution.api.Currency;
+import com.swissquote.lauzhack.evolution.api.Price;
 import com.swissquote.lauzhack.evolution.sq.team.utility.Trader;
 
 public class NaiveTrader extends Trader {
@@ -13,17 +14,14 @@ public class NaiveTrader extends Trader {
 	}
 
 	@Override
-	public void doTrade(Trade trade) {
-		// algos malin avec la banque
-		
-		BigDecimal loss = tradeWithClientLoss(trade.base, trade.term, trade.quantity);
-		BigDecimal gain = tradeWithClientGain(trade.base, trade.term, trade.quantity);
-		
-		updateWallet(trade.base, loss);		
-		updateWallet(trade.term, gain);
-		
+	protected void tradeWithBank(BigDecimal loss, BigDecimal gain, Currency base, Currency term) {
+		// TODO Auto-generated method stub
 	}
 
+	@Override
+	public void tradeWithBankWhenPricesChanges(Price latestChangedPrice) {
+		// TODO Auto-generated method stub
+	}
 }
 
 //if (Math.random() < 0.05) {

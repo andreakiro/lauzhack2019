@@ -31,12 +31,13 @@ public class OurBBook implements BBook {
 
 	@Override
 	public void onTrade(Trade trade) {
-		trader.doTrade(trade);
+		trader.tradeWithClient(trade);
 	}
 
 	@Override
 	public void onPrice(Price price) {
 		trader.updateMarketPrices(price);
+		trader.tradeWithBankWhenPricesChanges(price);
 	}
 
 	@Override
