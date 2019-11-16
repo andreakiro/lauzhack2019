@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import com.swissquote.lauzhack.evolution.api.Currency;
 import com.swissquote.lauzhack.evolution.api.Price;
+import com.swissquote.lauzhack.evolution.api.Trade;
 
 public final class Banker {
 	
@@ -15,8 +16,11 @@ public final class Banker {
 		this.market = new MarketPrices();
 	}
 	
-	public void updateWallet(Currency cur, BigDecimal amount) {
+	public void getTrade(Trade trade) {
 		
+	}
+	
+	private void updateWallet(Currency cur, BigDecimal amount) {
 		wallet.updateWallet(cur, amount);
 	}
 	
