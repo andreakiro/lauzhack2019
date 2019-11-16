@@ -8,22 +8,32 @@ import com.swissquote.lauzhack.evolution.api.Currency;
 
 public final class Wallet {
 	
-	private Map<Currency, BigDecimal> wallet;
+	private final Map<Currency, BigDecimal> wallet;
+	private static final BigDecimal WALLET_INITIAL_CHF=new BigDecimal(20_000_000);
 	
 	public Wallet() {
 		this.wallet = new HashMap<>();
 		
 		for (Currency cur: Currency.values())
-			wallet.put(cur, new BigDecimal(0));
+			wallet.put(cur, BigDecimal.ZERO);
 		
-		wallet.put(Currency.CHF, new BigDecimal(20_000_000));
+		wallet.put(Currency.CHF, WALLET_INITIAL_CHF);
 	}
+	
+	private Wallet(Map<Currency, BigDecimal> wallet) {
+	    this.wallet=new HashMap<Currency, BigDecimal>(wallet);
+	}
+	
 	
 	public BigDecimal getBalance(Currency cur) {
 		return wallet.get(cur);
 	}
 	
-	public void update(Currency cur, BigDecimal amount) {
-		wallet.put(cur, wallet.get(cur).add(amount));
+	public Wallet update(Currency cur, BigDecimal amount) {
+	    
+	    Map<Currency, BigDecimal> newMap= new HashMap<Currency, BigDecimal>(wallet);
+	    newMap.put(cur, wallet.get(cur).add(amount));
+		return new Wallet(newMap);
 	}
+	
 }
