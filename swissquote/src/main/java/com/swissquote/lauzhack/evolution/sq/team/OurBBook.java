@@ -8,7 +8,6 @@ import com.swissquote.lauzhack.evolution.api.Currency;
 import com.swissquote.lauzhack.evolution.api.Price;
 import com.swissquote.lauzhack.evolution.api.Trade;
 import com.swissquote.lauzhack.evolution.sq.team.utility.Administrator;
-import com.swissquote.lauzhack.evolution.sq.team.utility.Wallet;
 
 /**
  * This is a very simple example of implementation.
