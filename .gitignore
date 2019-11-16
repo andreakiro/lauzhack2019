@@ -16,4 +16,4 @@ log/
 target/
 
 # Output with .json
-output/
+swissquote/output/
