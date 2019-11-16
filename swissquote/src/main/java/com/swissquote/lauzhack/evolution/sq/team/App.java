@@ -19,16 +19,16 @@ public class App {
 		SwissquoteEvolution app = new SwissquoteEvolutionBuilder().
 				profile(MarketProfile.SOMETHING).
 				seed(1).
-				team("centroid").
+				team("Centroid").
 				bBook(ourBBook).
-				filePath("/Users/Andrea/Documents/Coding/lauzhack/swissquote/output").
+				filePath("/Users/Antoine/Documents/Projet/lauzhack2019/swissquote/output").
 				interval(1).
 				steps(5000).
 				build();
 
 		// Let's go !
 		app.run();
-
+		
 		// Display the result as JSON in console (also available in the file at "Path")
 		System.out.println(app.logBook());
 	}

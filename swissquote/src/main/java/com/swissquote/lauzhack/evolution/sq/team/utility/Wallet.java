@@ -29,11 +29,22 @@ public final class Wallet {
 		return wallet.get(cur);
 	}
 	
-	public Wallet update(Currency cur, BigDecimal amount) {
+	public Wallet add(Currency cur, BigDecimal amount) {
 	    
 	    Map<Currency, BigDecimal> newMap= new HashMap<Currency, BigDecimal>(wallet);
 	    newMap.put(cur, wallet.get(cur).add(amount));
 		return new Wallet(newMap);
+	}
+	
+	@Override
+	public String toString(){
+	    StringBuilder stringBuilder=new StringBuilder("Wallet:\n");
+	    
+	    for(Map.Entry<Currency, BigDecimal> entry : wallet.entrySet()) {
+	        stringBuilder.append(entry.getKey()).append(":").append(entry.getValue()).append("\n");
+	    }
+	            
+	   return stringBuilder.toString();         
 	}
 	
 }

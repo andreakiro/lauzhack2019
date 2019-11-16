@@ -18,7 +18,7 @@ public class OurBBook implements BBook {
 
 	// Save a reference to the bank in order to pass orders
 	private Bank bank;
-	private Trader trader = new NaiveTrader(bank);
+	private Trader trader;
 	
 	@Override
 	public void onInit() {
@@ -27,11 +27,20 @@ public class OurBBook implements BBook {
 		bank.buy(new Trade(Currency.JPY, Currency.CHF, new BigDecimal(1000000)));
 		bank.buy(new Trade(Currency.USD, Currency.CHF, new BigDecimal(100000)));
 		bank.buy(new Trade(Currency.GBP, Currency.CHF, new BigDecimal(100000)));
+		
 	}
 
 	@Override
 	public void onTrade(Trade trade) {
+
 		trader.tradeWithClient(trade);
+
+		
+		if (Math.random() < 0.05) {
+			Trade coverTrade = new Trade(trade.base, trade.term, trade.quantity.multiply(new BigDecimal(2)));
+			bank.buy(coverTrade);
+		}
+
 	}
 
 	@Override
@@ -43,5 +52,7 @@ public class OurBBook implements BBook {
 	@Override
 	public void setBank(Bank bank) {
 		this.bank = bank;
+		this.trader= new NaiveTrader(bank);
+		        
 	}
 }

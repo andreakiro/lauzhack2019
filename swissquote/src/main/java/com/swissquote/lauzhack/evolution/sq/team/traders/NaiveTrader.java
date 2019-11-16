@@ -14,12 +14,12 @@ public class NaiveTrader extends Trader {
 	}
 
 	@Override
-	protected void tradeWithBank(BigDecimal loss, BigDecimal gain, Currency base, Currency term) {
-		if (wallet.getBalance(base).compareTo(loss) == -1) {
-			while (wallet.getBalance(base).compareTo(loss) != 1) {
-				bank.buy(new Trade(Currency.EUR, Currency.CHF, new BigDecimal(100000)));
-			}
-		}
+	protected void tradeWithBank(BigDecimal diffBase, BigDecimal diffTerm, Currency base, Currency term) {
+    	if (wallet.add(base, diffBase).getBalance(base).signum() == -1) {
+    	    buyToBank(new Trade(base , term, new BigDecimal(1_000_000)));
+    	    
+    	System.out.println(wallet);    
+    		}
 	}
 
 	@Override

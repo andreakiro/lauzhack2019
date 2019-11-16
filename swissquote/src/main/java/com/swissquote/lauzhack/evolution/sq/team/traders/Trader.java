@@ -26,14 +26,13 @@ public abstract class Trader {
 	}
 	
 	public void tradeWithClient(Trade trade) {
-		BigDecimal loss = tradeWithClientLoss(trade.base, trade.term, trade.quantity);
-		BigDecimal gain = tradeWithClientGain(trade.base, trade.term, trade.quantity);
-		tradeWithBank(loss, gain, trade.base, trade.term);
-		wallet.update(trade.base, loss);
-		wallet.update(trade.term, gain);
-	};
+		BigDecimal diffBase = tradeWithClientLoss(trade);
+		BigDecimal diffTerm = tradeWithClientGain(trade);
+		tradeWithBank(diffBase, diffTerm, trade.base, trade.term);
+		wallet=wallet.add(trade.base, diffBase).add(trade.term, diffTerm);
+	}
 	
-	protected abstract void tradeWithBank(BigDecimal loss, BigDecimal gain, Currency base, Currency term);
+	protected abstract void tradeWithBank(BigDecimal baseChange, BigDecimal termChange, Currency base, Currency term);
 	
 	public abstract void tradeWithBankWhenPricesChanges(Price latestChangedPrice);
 	
@@ -41,32 +40,43 @@ public abstract class Trader {
 		market.updateMarketPrices(price);
 	}
 	
-	private BigDecimal tradeWithClientLoss(Currency base, Currency term, BigDecimal amount) {
-		amount = BigDecimal.ZERO.subtract(amount);
-		if (base.equals(Currency.CHF))
-			amount.add(CLIENT_GAIN);
-		return amount;
+	//send buy order to bank and update wallet
+	protected void buyToBank(Trade trade) {
+	    
+	    bank.buy(trade);
+	    wallet=wallet.add(trade.base, tradeWithBankLoss(trade)).add(trade.term,tradeWithBankGain(trade));
+                 
+    }
+	
+	//Returns the loss with 
+	private BigDecimal tradeWithClientLoss(Trade trade) {
+		BigDecimal quantity = trade.quantity.negate();
+		if (trade.base.equals(Currency.CHF))
+			quantity=quantity.add(CLIENT_GAIN);
+		return quantity;
 	}
 	
-	private BigDecimal tradeWithClientGain(Currency base, Currency term, BigDecimal amount) {
-		if (base.equals(Currency.CHF))
-			return amount.divide(market.getLastRate(term).multiply(BigDecimal.ONE.subtract(market.getLastMarkup(term))), 2, RoundingMode.HALF_EVEN);
+	private BigDecimal tradeWithClientGain(Trade trade) {
+		if (trade.base.equals(Currency.CHF))
+
+			return trade.quantity.divide(market.getLastRate(trade.term).multiply(BigDecimal.ONE.subtract(market.getLastMarkup(trade.term))), 2, RoundingMode.HALF_EVEN);
+
 		else 
-			return amount.multiply(market.getLastRate(base).multiply(BigDecimal.ONE.add(market.getLastMarkup(base)))).add(CLIENT_GAIN);
+			return trade.quantity.multiply(market.getLastRate(trade.base).multiply(BigDecimal.ONE.add(market.getLastMarkup(trade.base)))).add(CLIENT_GAIN);
 	}
 	
-	protected BigDecimal tradeWithBankLoss(Currency base, Currency term, BigDecimal amount) {
-		amount = BigDecimal.ZERO.subtract(amount);
-		if (base.equals(Currency.CHF))
-			return amount.multiply(market.getLastRate(term).multiply(BigDecimal.ONE.add(market.getLastMarkup(term)))).subtract(BANK_LOSS);
+	protected BigDecimal tradeWithBankLoss(Trade trade) {
+	    BigDecimal quantity= trade.quantity.negate();
+		if (trade.base.equals(Currency.CHF))
+			return quantity.multiply(market.getLastRate(trade.term).multiply(BigDecimal.ONE.add(market.getLastMarkup(trade.term)))).subtract(BANK_LOSS);
 		else 
-			return amount.divide(market.getLastRate(base).multiply(BigDecimal.ONE.subtract(market.getLastMarkup(base))), 2, RoundingMode.HALF_EVEN);
+			return quantity.divide(market.getLastRate(trade.base).multiply(BigDecimal.ONE.subtract(market.getLastMarkup(trade.base))), 2, RoundingMode.HALF_EVEN);
 	}
 	
-	protected BigDecimal tradeWithBankGain(Currency base, Currency term, BigDecimal amount) {
-		if (base.equals(Currency.CHF))
-			return amount;
+	protected BigDecimal tradeWithBankGain(Trade trade) {
+		if (trade.base.equals(Currency.CHF))
+			return trade.quantity;
 		else 
-			return amount.subtract(BANK_LOSS);
+			return trade.quantity.subtract(BANK_LOSS);
 	}
 }
