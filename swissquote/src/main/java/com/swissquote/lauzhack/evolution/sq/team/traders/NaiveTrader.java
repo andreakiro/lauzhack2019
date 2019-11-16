@@ -15,13 +15,18 @@ public class NaiveTrader extends Trader {
 
 	@Override
 	protected void tradeWithBank(BigDecimal diffBase, BigDecimal diffTerm, Currency base, Currency term) {
+        
     	if (wallet.add(base, diffBase).getBalance(base).signum() == -1) {
     	    buyToBank(new Trade(base , term, new BigDecimal(1_000_000)));
-    	    
-    	System.out.println(wallet);    
-    		}
+    	}
 	}
 
 	@Override
-	public void tradeWithBankWhenPricesChanges(Price latestChangedPrice) {}
+	public void tradeWithBankWhenPricesChanges(Price latestChangedPrice) {
+	    //NOTHING
+	}
+	@Override
+	public void initialTrade() {
+	    //NOTHING
+	}
 }

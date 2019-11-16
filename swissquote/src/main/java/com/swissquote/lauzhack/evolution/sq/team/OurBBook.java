@@ -22,24 +22,13 @@ public class OurBBook implements BBook {
 	
 	@Override
 	public void onInit() {
-		// Start by buying some cash. Don't search for more logic here: numbers are just random..
-		bank.buy(new Trade(Currency.EUR, Currency.CHF, new BigDecimal(100000)));
-		bank.buy(new Trade(Currency.JPY, Currency.CHF, new BigDecimal(1000000)));
-		bank.buy(new Trade(Currency.USD, Currency.CHF, new BigDecimal(100000)));
-		bank.buy(new Trade(Currency.GBP, Currency.CHF, new BigDecimal(100000)));
-		
+	    trader.initialTrade();
 	}
 
 	@Override
 	public void onTrade(Trade trade) {
 
-		trader.tradeWithClient(trade);
-
-		
-		if (Math.random() < 0.05) {
-			Trade coverTrade = new Trade(trade.base, trade.term, trade.quantity.multiply(new BigDecimal(2)));
-			bank.buy(coverTrade);
-		}
+		trader.clientTradesWithUs(trade);
 
 	}
 

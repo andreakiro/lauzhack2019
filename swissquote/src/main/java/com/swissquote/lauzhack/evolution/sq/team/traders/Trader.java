@@ -25,17 +25,14 @@ public abstract class Trader {
 		this.market = new MarketPrices();
 	}
 	
-	public void tradeWithClient(Trade trade) {
+	public void clientTradesWithUs(Trade trade) {
 		BigDecimal diffBase = tradeWithClientLoss(trade);
 		BigDecimal diffTerm = tradeWithClientGain(trade);
 		tradeWithBank(diffBase, diffTerm, trade.base, trade.term);
 		wallet=wallet.add(trade.base, diffBase).add(trade.term, diffTerm);
 	}
 	
-	protected abstract void tradeWithBank(BigDecimal baseChange, BigDecimal termChange, Currency base, Currency term);
-	
-	public abstract void tradeWithBankWhenPricesChanges(Price latestChangedPrice);
-	
+		
 	public void updateMarketPrices(Price price) {
 		market.updateMarketPrices(price);
 	}
@@ -44,7 +41,7 @@ public abstract class Trader {
 	protected void buyToBank(Trade trade) {
 	    
 	    bank.buy(trade);
-	    wallet=wallet.add(trade.base, tradeWithBankLoss(trade)).add(trade.term,tradeWithBankGain(trade));
+	    wallet=wallet.add(trade.term, tradeWithBankLoss(trade)).add(trade.base,tradeWithBankGain(trade));
                  
     }
 	
@@ -68,15 +65,23 @@ public abstract class Trader {
 	protected BigDecimal tradeWithBankLoss(Trade trade) {
 	    BigDecimal quantity= trade.quantity.negate();
 		if (trade.base.equals(Currency.CHF))
-			return quantity.multiply(market.getLastRate(trade.term).multiply(BigDecimal.ONE.add(market.getLastMarkup(trade.term)))).subtract(BANK_LOSS);
+	        return quantity.divide(market.getLastRate(trade.term).multiply(BigDecimal.ONE.subtract(market.getLastMarkup(trade.term))), 2, RoundingMode.HALF_EVEN);
 		else 
-			return quantity.divide(market.getLastRate(trade.base).multiply(BigDecimal.ONE.subtract(market.getLastMarkup(trade.base))), 2, RoundingMode.HALF_EVEN);
+            return quantity.multiply(market.getLastRate(trade.base).multiply(BigDecimal.ONE.add(market.getLastMarkup(trade.base)))).subtract(BANK_LOSS);
 	}
 	
 	protected BigDecimal tradeWithBankGain(Trade trade) {
 		if (trade.base.equals(Currency.CHF))
-			return trade.quantity;
+	        return trade.quantity.subtract(BANK_LOSS);
 		else 
-			return trade.quantity.subtract(BANK_LOSS);
+	        return trade.quantity;
+
 	}
+	
+	
+	public abstract void tradeWithBankWhenPricesChanges(Price latestChangedPrice);
+	
+	protected abstract void tradeWithBank(BigDecimal diffBase, BigDecimal diffTerm, Currency base, Currency term);
+
+	public abstract void initialTrade();
 }

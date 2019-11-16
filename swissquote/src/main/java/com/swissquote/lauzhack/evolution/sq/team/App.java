@@ -21,7 +21,7 @@ public class App {
 				seed(1).
 				team("Centroid").
 				bBook(ourBBook).
-				filePath("/Users/Antoine/Documents/Projet/lauzhack2019/swissquote/output").
+				filePath("/home/loic/Documents/Projets/lauzhack2019/swissquote/output").
 				interval(1).
 				steps(5000).
 				build();
