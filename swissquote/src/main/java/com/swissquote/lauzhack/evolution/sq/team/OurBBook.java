@@ -34,7 +34,6 @@ public class OurBBook implements BBook {
 	@Override
 	public void onTrade(Trade trade) {
 		// It would certainly be wise to store the available amount per currency..
-
 		// We cover market 5% of times, for twice the value. Cause why not ??
 		if (Math.random() < 0.05) {
 			Trade coverTrade = new Trade(trade.base, trade.term, trade.quantity.multiply(new BigDecimal(2)));
