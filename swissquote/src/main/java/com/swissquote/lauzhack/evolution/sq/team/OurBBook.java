@@ -8,7 +8,7 @@ import com.swissquote.lauzhack.evolution.api.Currency;
 import com.swissquote.lauzhack.evolution.api.Price;
 import com.swissquote.lauzhack.evolution.api.Trade;
 import com.swissquote.lauzhack.evolution.sq.team.traders.NaiveTrader;
-import com.swissquote.lauzhack.evolution.sq.team.utility.Trader;
+import com.swissquote.lauzhack.evolution.sq.team.traders.Trader;
 
 /**
  * This is a very simple example of implementation.

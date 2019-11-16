@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import com.swissquote.lauzhack.evolution.api.Bank;
 import com.swissquote.lauzhack.evolution.api.Currency;
 import com.swissquote.lauzhack.evolution.api.Price;
-import com.swissquote.lauzhack.evolution.sq.team.utility.Trader;
 
 public class NaiveTrader extends Trader {
 

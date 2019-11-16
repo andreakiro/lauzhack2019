@@ -1,4 +1,4 @@
-package com.swissquote.lauzhack.evolution.sq.team.utility;
+package com.swissquote.lauzhack.evolution.sq.team.traders;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -7,6 +7,8 @@ import com.swissquote.lauzhack.evolution.api.Bank;
 import com.swissquote.lauzhack.evolution.api.Currency;
 import com.swissquote.lauzhack.evolution.api.Price;
 import com.swissquote.lauzhack.evolution.api.Trade;
+import com.swissquote.lauzhack.evolution.sq.team.utility.MarketPrices;
+import com.swissquote.lauzhack.evolution.sq.team.utility.Wallet;
 
 public abstract class Trader {
 	
