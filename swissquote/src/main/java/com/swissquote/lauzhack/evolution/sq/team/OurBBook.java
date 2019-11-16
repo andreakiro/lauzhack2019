@@ -16,7 +16,6 @@ public class OurBBook implements BBook {
 
 	// Save a reference to the bank in order to pass orders
 	private Bank bank;
-	private Bank test;
 	
 	@Override
 	public void onInit() {
