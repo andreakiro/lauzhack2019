@@ -1,10 +1,10 @@
-package com.swissquote.lauzhack.evolution.sq.team;
+package com.swissquote.lauzhack.evolution.sq.andrea;
 
 import com.swissquote.lauzhack.evolution.SwissquoteEvolutionBuilder;
 import com.swissquote.lauzhack.evolution.api.MarketProfile;
 import com.swissquote.lauzhack.evolution.api.SwissquoteEvolution;
 
-public class App {
+public class MyApp {
 
 	/**
 	 * This is the starter for the application.
@@ -13,13 +13,13 @@ public class App {
 	 */
 	public static void main(String[] args) {
 		// Instantiate our BBook
-		OurBBookCleaned ourBBook = new OurBBookCleaned();
+		MyNewBBook ourBBook = new MyNewBBook();
 
 		// Create the application runner
 		SwissquoteEvolution app = new SwissquoteEvolutionBuilder().
-				profile(MarketProfile.STARTUP).
+				profile(MarketProfile.SOMETHING).
 				seed(1).
-				team("Centroid").
+				team("centroid").
 				bBook(ourBBook).
 				filePath("/Users/Andrea/Documents/Coding/lauzhack/swissquote/output").
 				interval(1).

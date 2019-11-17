@@ -1,17 +1,20 @@
-package com.swissquote.lauzhack.evolution.sq.team;
+package com.swissquote.lauzhack.evolution.sq.andrea;
+
+import java.math.BigDecimal;
 
 import com.swissquote.lauzhack.evolution.api.BBook;
 import com.swissquote.lauzhack.evolution.api.Bank;
+import com.swissquote.lauzhack.evolution.api.Currency;
 import com.swissquote.lauzhack.evolution.api.Price;
 import com.swissquote.lauzhack.evolution.api.Trade;
-import com.swissquote.lauzhack.evolution.sq.team.traders.NaiveTrader;
-import com.swissquote.lauzhack.evolution.sq.team.traders.Trader;
+import com.swissquote.lauzhack.evolution.sq.andrea.traders.NaiveTrader;
+import com.swissquote.lauzhack.evolution.sq.andrea.traders.Trader;
 
 /**
  * This is a very simple example of implementation.
  * This class can be completely discarded.
  */
-public class OurBBook implements BBook {
+public class MyNewBBook implements BBook {
 
 	// Save a reference to the bank in order to pass orders
 	@SuppressWarnings("unused")
@@ -20,14 +23,15 @@ public class OurBBook implements BBook {
 	
 	@Override
 	public void onInit() {
-	    trader.initialTrade();
+		trader.onInit();
 	}
 
 	@Override
 	public void onTrade(Trade trade) {
-
-		trader.clientTradesWithUs(trade);
-
+		System.out.println("Let's trade with a new client");
+		trader.tradeWithClient(new Trade(Currency.USD, Currency.CHF, new BigDecimal(100)));
+		trader.tradeWithClient(new Trade(Currency.CHF, Currency.JPY, new BigDecimal(100)));
+		System.exit(1);
 	}
 
 	@Override
@@ -39,6 +43,6 @@ public class OurBBook implements BBook {
 	@Override
 	public void setBank(Bank bank) {
 		this.bank = bank;
-		this.trader= new NaiveTrader(bank);
+		this.trader = new NaiveTrader(bank);
 	}
 }

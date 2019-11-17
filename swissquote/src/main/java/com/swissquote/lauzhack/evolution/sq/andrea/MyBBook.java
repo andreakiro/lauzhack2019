@@ -1,4 +1,4 @@
-package com.swissquote.lauzhack.evolution.sq.team;
+package com.swissquote.lauzhack.evolution.sq.andrea;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -13,7 +13,7 @@ import com.swissquote.lauzhack.evolution.api.Trade;
 
 import javafx.util.Pair;
 
-public class OurBBookCleaned implements BBook {
+public class MyBBook implements BBook {
 
     private final double CHF_RATIO = 0.5;
     private final double OTHER_CURRENCY_RATIO = (1-CHF_RATIO)/4;
@@ -27,7 +27,20 @@ public class OurBBookCleaned implements BBook {
 
     @Override
     public void onInit() {
-        initialiseMaps();
+    	for(Currency cur : Currency.values())
+            amounts.put(cur, BigDecimal.ZERO);
+        amounts.put(Currency.CHF, new BigDecimal(20_000_000));
+
+        rates.put(Currency.CHF, BigDecimal.ONE);
+        rates.put(Currency.EUR, new BigDecimal(1.09));
+        rates.put(Currency.USD, new BigDecimal(0.99));
+        rates.put(Currency.GBP, new BigDecimal(1.27));
+        rates.put(Currency.JPY, new BigDecimal(0.0091));
+        
+        markups.put(Currency.EUR, new BigDecimal(0.001));
+        markups.put(Currency.USD, new BigDecimal(0.001));
+        markups.put(Currency.GBP, new BigDecimal(0.0005));
+        markups.put(Currency.JPY, new BigDecimal(0.003));
     }
 
     @Override
@@ -72,26 +85,6 @@ public class OurBBookCleaned implements BBook {
     @Override
     public void setBank(Bank bank) {
         this.bank = bank;
-    }
-    
-    /**
-     * This method initializes the rates, markups and amount with initial values
-     */
-    private void initialiseMaps() {
-        for(Currency cur : Currency.values())
-            amounts.put(cur, BigDecimal.ZERO);
-        amounts.put(Currency.CHF, new BigDecimal(20_000_000));
-
-        rates.put(Currency.CHF, BigDecimal.ONE);
-        rates.put(Currency.EUR, new BigDecimal(1.09));
-        rates.put(Currency.USD, new BigDecimal(0.99));
-        rates.put(Currency.GBP, new BigDecimal(1.27));
-        rates.put(Currency.JPY, new BigDecimal(0.0091));
-        
-        markups.put(Currency.EUR, new BigDecimal(0.001));
-        markups.put(Currency.USD, new BigDecimal(0.001));
-        markups.put(Currency.GBP, new BigDecimal(0.0005));
-        markups.put(Currency.JPY, new BigDecimal(0.003));
     }
     
     private BigDecimal buyThreshold(Currency cur) {
