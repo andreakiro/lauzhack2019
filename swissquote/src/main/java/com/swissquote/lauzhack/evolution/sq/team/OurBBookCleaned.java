@@ -15,19 +15,15 @@ import javafx.util.Pair;
 
 public class OurBBookCleaned implements BBook {
 
+    private final double CHF_RATIO = 0.5;
+    private final double OTHER_CURRENCY_RATIO = (1-CHF_RATIO)/4;
+    private final double BOUND_DIVERGENCE = 0.5;
+    
     // Save a reference to the bank in order to pass orders
     private Bank bank;
     private Map<Currency, BigDecimal> rates = new HashMap<Currency, BigDecimal>();
     private Map<Currency, BigDecimal> markups = new HashMap<Currency, BigDecimal>();
     private Map<Currency, BigDecimal> amounts = new HashMap<Currency, BigDecimal>();
-
-    private BigDecimal buyThreshold(Currency cur) {
-        return (new BigDecimal(0)).divide(rates.get(cur), 2, RoundingMode.HALF_EVEN);
-    }
-
-    private BigDecimal restartValue(Currency cur) {
-        return (new BigDecimal(2_000_000)).divide(rates.get(cur), 2, RoundingMode.HALF_EVEN);
-    }
 
     @Override
     public void onInit() {
@@ -71,6 +67,7 @@ public class OurBBookCleaned implements BBook {
     public void onPrice(Price price) {
                 
         rates.put(price.base, price.rate);
+        System.out.println(rates);
         markups.put(price.base, price.markup);
     }
 
@@ -98,6 +95,46 @@ public class OurBBookCleaned implements BBook {
         markups.put(Currency.USD, new BigDecimal(0.001));
         markups.put(Currency.GBP, new BigDecimal(0.0005));
         markups.put(Currency.JPY, new BigDecimal(0.003));
+    }
+    
+    private BigDecimal buyThreshold(Currency cur) {
+        return (new BigDecimal(0)).divide(rates.get(cur), 2, RoundingMode.HALF_EVEN);
+    }
+    
+    
+    /**
+     * Compute the threshold for a given currency
+     * 
+     * @param cur: the currency on which we want the threshold
+     * @param up: true if we want the upper threshold and false if we want the lower threshold
+     * @return the threshold for a given currency.
+     */
+    private BigDecimal computeThreshold(Currency cur, boolean up) {
+        if(up) {
+            return restartValue(cur).multiply(BigDecimal.ONE.add(new BigDecimal(BOUND_DIVERGENCE)));
+        }
+        else {
+            return restartValue(cur).multiply(BigDecimal.ONE.subtract(new BigDecimal(BOUND_DIVERGENCE)));
+
+        }
+    }
+
+    /**
+     * Compute the restartValue for a given currency based on the total amount of money
+     * 
+     * @param cur: the currency on which we want the restartValue
+     * @return the restartValue for a given currency.
+     */
+    private BigDecimal restartValue(Currency cur) {
+        //return (new BigDecimal(2_000_000)).divide(rates.get(cur), 2, RoundingMode.HALF_EVEN);
+        BigDecimal total = totalAmount();
+        if (cur == Currency.CHF) {
+            return total.multiply(new BigDecimal(CHF_RATIO));
+        }
+        else {
+            return total.multiply(new BigDecimal(OTHER_CURRENCY_RATIO)).divide(rates.get(cur), 2, RoundingMode.HALF_EVEN);
+
+        }
     }
     
     /**
@@ -140,5 +177,19 @@ public class OurBBookCleaned implements BBook {
         
         return new Pair<BigDecimal, BigDecimal>(bankGreenDiff, bankRedDiff);
     }
-
+    
+    /**
+     * This method computes the total amount of money we have.
+     * 
+     * @return the total money we have in CHF.
+     */
+    private BigDecimal totalAmount() {
+        BigDecimal tot = BigDecimal.ZERO;
+        for (Currency cur: Currency.values()) {
+            tot = tot.add(amounts.get(cur).multiply(rates.get(cur)));
+        }
+        
+        return tot;
+    }
+    
 }
