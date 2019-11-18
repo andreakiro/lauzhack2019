@@ -7,8 +7,8 @@ import com.swissquote.lauzhack.evolution.api.Bank;
 import com.swissquote.lauzhack.evolution.api.Currency;
 import com.swissquote.lauzhack.evolution.api.Price;
 import com.swissquote.lauzhack.evolution.api.Trade;
-import com.swissquote.lauzhack.evolution.sq.andrea.traders.NaiveTrader;
-import com.swissquote.lauzhack.evolution.sq.andrea.traders.Trader;
+import com.swissquote.lauzhack.evolution.sq.andrea.traders.NaiveTraderV2;
+import com.swissquote.lauzhack.evolution.sq.andrea.traders.TraderV2;
 
 /**
  * This is a very simple example of implementation.
@@ -19,7 +19,8 @@ public class MyNewBBook implements BBook {
 	// Save a reference to the bank in order to pass orders
 	@SuppressWarnings("unused")
 	private Bank bank;
-	private Trader trader;
+	private TraderV2 trader;
+	private Integer i = 0;
 	
 	@Override
 	public void onInit() {
@@ -28,10 +29,17 @@ public class MyNewBBook implements BBook {
 
 	@Override
 	public void onTrade(Trade trade) {
-		System.out.println("Let's trade with a new client");
-		trader.tradeWithClient(new Trade(Currency.USD, Currency.CHF, new BigDecimal(100)));
-		trader.tradeWithClient(new Trade(Currency.CHF, Currency.JPY, new BigDecimal(100)));
-		System.exit(1);
+//		System.out.println("Client buy " + trade.quantity + " " + trade.base + " against " + trade.term);
+		trader.tradeWithClient(trade);
+//		i ++;
+//		if (i > 6309) {
+//			onTrade2();
+//			System.exit(1);
+//		}
+	}
+	
+	private void onTrade2() {
+		trader.tradeWithClient(new Trade(Currency.GBP, Currency.CHF, new BigDecimal(5500)));
 	}
 
 	@Override
@@ -43,6 +51,6 @@ public class MyNewBBook implements BBook {
 	@Override
 	public void setBank(Bank bank) {
 		this.bank = bank;
-		this.trader = new NaiveTrader(bank);
+		this.trader = new NaiveTraderV2(bank);
 	}
 }

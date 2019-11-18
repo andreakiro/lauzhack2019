@@ -17,11 +17,11 @@ public class MyApp {
 
 		// Create the application runner
 		SwissquoteEvolution app = new SwissquoteEvolutionBuilder().
-				profile(MarketProfile.SOMETHING).
+				profile(MarketProfile.IT_WORKS).
 				seed(1).
 				team("centroid").
 				bBook(ourBBook).
-				filePath("/Users/Andrea/Documents/Coding/lauzhack/swissquote/output").
+				filePath("/Users/Andrea/Documents/Coding/java/lauzhack/swissquote/output").
 				interval(1).
 				steps(5000).
 				build();
